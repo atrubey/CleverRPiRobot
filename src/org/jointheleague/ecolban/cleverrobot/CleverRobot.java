@@ -34,11 +34,64 @@ public class CleverRobot extends IRobotAdapter {
 	}
 
 	private boolean loop() throws Exception {
-		System.out.println("LEFT SONAR: " + sonar.readSonar("left"));
-		Thread.sleep(1000);
-		setTailLight(tailLight = !tailLight);
-		System.out.println("RIGHT SONAR: " + sonar.readSonar("right"));
-		System.out.println("CENTER SONAR: " + sonar.readSonar("center"));
+		driveDirect(100, 100);
+		readSensors(100);
+
+		int[] lightSensors = getLightBumps();
+
+		if (lightSensors[0] > 1000) {
+			driveDirect(100, -100);
+			Thread.sleep(1500);
+		} else if (lightSensors[1] > 1000) {
+			driveDirect(100, -100);
+			Thread.sleep(750);
+		} else if (lightSensors[2] > 1000) {
+			driveDirect(100, -100);
+			Thread.sleep(500);
+		} else if (lightSensors[3] > 1000) {
+			driveDirect(-100, 100);
+			Thread.sleep(500);
+		} else if (lightSensors[4] > 1000) {
+			driveDirect(-100, 100);
+			Thread.sleep(750);
+		} else if (lightSensors[5] > 1000) {
+			driveDirect(-100, 100);
+			Thread.sleep(1500);
+		}
+
+		// if (isBumpLeft()) {
+		// driveDirect(100, -100);
+		// Thread.sleep(1000);
+		// driveDirect(100, 100);
+		// Thread.sleep(1000);
+		// driveDirect(-100, 100);
+		// Thread.sleep(1000);
+		// } else if (isBumpRight()) {
+		// driveDirect(-100, 100);
+		// Thread.sleep(1000);
+		// driveDirect(100, 100);
+		// Thread.sleep(1000);
+		// driveDirect(100, -100);
+		// Thread.sleep(1000);
+		// } else if (isBumpRight() && isBumpLeft()) {
+		// driveDirect(-100, 100);
+		// Thread.sleep(1000);
+		// driveDirect(100, 100);
+		// Thread.sleep(1000);
+		// driveDirect(100, -100);
+		// Thread.sleep(1000);
+		// }
+
+		if (isBumpLeft()) {
+			driveDirect(100, -100);
+			Thread.sleep(1000);
+		} else if (isBumpRight()) {
+			driveDirect(-100, 100);
+			Thread.sleep(1000);
+		} else if (isBumpRight() && isBumpLeft()) {
+			driveDirect(-100, 100);
+			Thread.sleep(1000);
+		}
 
 		return true;
 	}
